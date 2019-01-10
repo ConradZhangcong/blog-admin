@@ -2,10 +2,12 @@
   <div class="layout">
     <common-header></common-header>
     <common-aside></common-aside>
-    <transition name="fade"
-                mode="out-in">
-      <router-view class="container"></router-view>
-    </transition>
+    <div class="container">
+      <transition name="fade"
+                  mode="out-in">
+        <router-view></router-view>
+      </transition>
+    </div>
   </div>
 </template>
 
@@ -38,13 +40,16 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.fade-enter, .fade-leave-to
+.fade-enter
   opacity 0
+  transform translateX(-30px)
+.fade-leave-to
+  opacity 0
+  transform translateX(30px)
 .fade-enter-to, .fade-leave
   opacity 1
 .fade-enter-active, .fade-leave-active
-  transition .5s
-
+  transition 0.5s
 .layout
   width 100%
   min-height 100%
@@ -54,6 +59,5 @@ export default {
     right 0
     top 70px
     bottom 0
-    padding 10px 10px 30px 10px
-    background #f0f0f0
+    overflow hidden
 </style>

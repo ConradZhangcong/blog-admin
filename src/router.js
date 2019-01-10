@@ -48,6 +48,13 @@ const router = new Router({
         meta: {
           title: '发表文章'
         }
+      }, {
+        path: 'edit',
+        name: 'articleEdit',
+        component: () => import('views/article/edit.vue'),
+        meta: {
+          title: '编辑文章'
+        }
       }]
     },
     {

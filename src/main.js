@@ -5,8 +5,11 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import api from './api'
+import moment from 'moment'
 
-Vue.prototype.$api = api
+Vue.prototype.$api = api // axios
+Vue.prototype.moment = moment // moment
+
 Vue.config.productionTip = false
 
 Vue.use(ElementUI)
