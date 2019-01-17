@@ -1,8 +1,6 @@
 import axios from 'axios'
 import config from './config'
-import {
-  Loading
-} from 'element-ui'
+import { Loading } from 'element-ui'
 
 const instance = axios.create({
   baseURL: config.baseURL,
@@ -31,6 +29,7 @@ const errorHandle = status => {
 instance.interceptors.request.use(
   config => {
     loadingInstance = Loading.service({
+      target: '.container',
       lock: true,
       text: 'loading...',
       spinner: 'el-icon-loading',
@@ -47,7 +46,8 @@ instance.interceptors.request.use(
     loadingInstance.close()
     console.log('request error: ' + error)
     Promise.reject(error)
-  })
+  }
+)
 
 // 响应拦截器 response 请求服务器成功
 instance.interceptors.response.use(

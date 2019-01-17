@@ -22,60 +22,68 @@ const router = new Router({
       path: '',
       component: Layout,
       redirect: '/dashboard',
-      children: [{
-        path: 'dashboard',
-        name: 'dashboard',
-        component: () => import('views/dashboard/dashboard.vue'),
-        meta: {
-          title: '首页'
+      children: [
+        {
+          path: 'dashboard',
+          name: 'dashboard',
+          component: () => import('views/dashboard/dashboard.vue'),
+          meta: { title: '首页' }
         }
-      }]
+      ]
     },
     {
       path: '/article',
       component: Layout,
-      children: [{
-        path: 'list',
-        name: 'articleList',
-        component: () => import('views/article/list.vue'),
-        meta: {
-          title: '文章列表'
+      children: [
+        {
+          path: 'list',
+          name: 'articleList',
+          component: () => import('views/article/list.vue'),
+          meta: { title: '文章列表' }
+        },
+        {
+          path: 'publish',
+          name: 'articlePublish',
+          component: () => import('views/article/publish.vue'),
+          meta: { title: '发表文章' }
+        },
+        {
+          path: 'edit',
+          name: 'articleEdit',
+          component: () => import('views/article/edit.vue'),
+          meta: { title: '编辑文章' }
         }
-      }, {
-        path: 'publish',
-        name: 'articlePublish',
-        component: () => import('views/article/publish.vue'),
-        meta: {
-          title: '发表文章'
+      ]
+    },
+    {
+      path: '/comment',
+      component: Layout,
+      children: [
+        {
+          path: 'list',
+          name: 'commentList',
+          component: () => import('views/comment/list.vue'),
+          meta: { title: '评论列表' }
         }
-      }, {
-        path: 'edit',
-        name: 'articleEdit',
-        component: () => import('views/article/edit.vue'),
-        meta: {
-          title: '编辑文章'
-        }
-      }]
+      ]
     },
     {
       path: '/user',
       component: Layout,
-      children: [{
-        path: 'list',
-        name: 'userList',
-        component: () => import('views/user/list.vue'),
-        meta: {
-          title: '用户列表'
+      children: [
+        {
+          path: 'list',
+          name: 'userList',
+          component: () => import('views/user/list.vue'),
+          meta: { title: '用户列表' }
         }
-      }]
+      ]
     },
     {
       path: '/login',
       name: 'login',
       component: () => import('views/common/login.vue'),
-      meta: {
-        title: '登录'
-      }
+      meta: { title: '登录' }
     }
     // {
     //   path: '*',

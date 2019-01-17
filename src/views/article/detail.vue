@@ -30,6 +30,8 @@
           <el-form-item label="分类"
                         prop="classify">
             <el-select v-model="articleForm.classify"
+                       filterable
+                       allow-create
                        placeholder="请选择分类">
               <el-option label="测试"
                          value="test"></el-option>
@@ -47,6 +49,8 @@
                         prop="classify">
             <el-select v-model="articleForm.tags"
                        multiple
+                       filterable
+                       allow-create
                        placeholder="请选择标签(可多选)">
               <el-option label="标签1"
                          value="biaoqian1"></el-option>

@@ -3,12 +3,12 @@ import axios from 'utils/http.js'
 
 const article = {
   articleList (params) {
-    return axios.get('/admin/article/list', {
+    return axios.get('/article/list', {
       params: params
     })
   },
   articlePublish (params) {
-    return axios.post('/admin/article/publish', params)
+    return axios.post('/article/publish', params)
   }
 }
 

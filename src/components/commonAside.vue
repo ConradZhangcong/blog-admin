@@ -22,6 +22,13 @@
           <el-menu-item index="/article/list">文章列表</el-menu-item>
           <el-menu-item index="/article/publish">发表文章</el-menu-item>
       </el-submenu>
+      <el-submenu index="/comment">
+        <template slot="title">
+          <i class="el-icon-edit-outline"></i>
+          <span slot="title">评论管理</span>
+        </template>
+          <el-menu-item index="/comment/list">评论列表</el-menu-item>
+      </el-submenu>
       <el-menu-item index="/user/list">
         <i class="el-icon-setting"></i>
         <span slot="title">用户管理</span>
