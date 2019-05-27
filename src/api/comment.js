@@ -1,4 +1,4 @@
-import axios from 'utils/http.js'
+import axios from '@/utils/http.js'
 
 const article = {
   commentList (params) {

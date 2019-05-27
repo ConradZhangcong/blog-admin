@@ -1,6 +1,5 @@
 <template>
-  <div class="article-list"
-       style="padding: 20px;">
+  <div class="article-list">
     <el-table :data="articleList"
               border
               style="width: 100%;text-align:center;">
@@ -79,7 +78,8 @@
 </template>
 
 <script>
-import Pagination from 'components/pagination'
+// import { getArticleList } from '@/api/article'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'article-list',
   data () {
@@ -109,11 +109,11 @@ export default {
     },
     // 获取文章列表
     _getList () {
-      this.$api.article.articleList(this.listQuery)
-        .then(res => {
-          this.articleList = res.data.data.list
-          this.total = res.data.data.total
-        })
+      // getArticleList(this.listQuery)
+      //   .then(res => {
+      //     this.articleList = res.data.data.list
+      //     this.total = res.data.data.total
+      //   })
     }
   },
   created () {

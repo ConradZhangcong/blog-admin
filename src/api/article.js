@@ -1,15 +1,17 @@
-import axios from 'utils/http.js'
-// import qs from 'qs'
+import axios from '@/utils/http.js'
 
-const article = {
-  articleList (params) {
-    return axios.get('/article/list', {
-      params: params
-    })
-  },
-  articlePublish (params) {
-    return axios.post('/article/publish', params)
-  }
+export function getArticleList (params) {
+  return axios({
+    url: '/article/list',
+    method: 'get',
+    params
+  })
 }
 
-export default article
+export function publishArticle (data) {
+  return axios({
+    url: '/article/publish',
+    method: 'post',
+    data
+  })
+}
