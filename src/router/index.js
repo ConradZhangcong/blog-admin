@@ -66,16 +66,28 @@ export const asyncRoutes = [
         meta: { title: '文章列表' }
       },
       {
-        path: 'comment',
-        name: 'ArticleComment',
-        component: () => import('@/views/article/comment.vue'),
-        meta: { title: '评论列表' }
-      },
-      {
         path: 'publish',
         name: 'ArticlePublish',
         component: () => import('@/views/article/publish.vue'),
         meta: { title: '发表文章' }
+      },
+      {
+        path: 'category',
+        name: 'ArticleCategory',
+        component: () => import('@/views/article/category.vue'),
+        meta: { title: '类别管理' }
+      },
+      {
+        path: 'tag',
+        name: 'ArticleTag',
+        component: () => import('@/views/article/tag.vue'),
+        meta: { title: '标签管理' }
+      },
+      {
+        path: 'comment',
+        name: 'ArticleComment',
+        component: () => import('@/views/article/comment.vue'),
+        meta: { title: '评论列表' }
       },
       {
         path: 'edit/:id',

@@ -32,7 +32,6 @@ export function updateUser (data) {
 }
 
 export function deleteUser (data) {
-  console.log(data)
   return axios({
     url: '/api/v1/user',
     method: 'delete',

@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import Sticky from '@/components/sticky'
+import Sticky from '@/components/Sticky'
 // import MaterialInput from 'vue-material-input'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'

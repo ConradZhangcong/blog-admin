@@ -1,18 +1,55 @@
 <template>
   <div class="article-list">
-    <el-table :data="articleList"
+    <el-row>
+      <el-form :inline="true"
+               :model="searchForm">
+        <el-form-item label="关键词">
+          <el-input v-model="searchForm.keywords"
+                    placeholder="请输入关键词"></el-input>
+        </el-form-item>
+        <el-form-item label="用户类型">
+          <el-select v-model="searchForm.userType"
+                     placeholder="请选择用户类型">
+            <el-option value=""></el-option>
+            <el-option label="管理员"
+                       value="99"></el-option>
+            <el-option label="用户"
+                       value="1"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="是否封禁">
+          <el-select v-model="searchForm.isBlock"
+                     placeholder="请选择是否封禁">
+            <el-option value=""></el-option>
+            <el-option label="是"
+                       value="1"></el-option>
+            <el-option label="否"
+                       value="0"></el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary"
+                     size="medium"
+                     @click="getList">查询</el-button>
+          <el-button type="primary"
+                     size="medium"
+                     @click="showDialog=true">新增用户</el-button>
+        </el-form-item>
+      </el-form>
+    </el-row>
+    <el-table :data="list"
               border
               style="width: 100%;text-align:center;">
       <el-table-column type="index"
                        width="50"
                        align="center">
       </el-table-column>
-      <el-table-column prop="createTime"
+      <el-table-column prop="createdAt"
                        :formatter="dateFormat"
                        label="发表日期"
                        align="center">
       </el-table-column>
-      <el-table-column prop="modifyTime"
+      <el-table-column prop="updatedAt"
                        :formatter="dateFormat"
                        label="修改日期"
                        align="center">
@@ -72,35 +109,25 @@
     <pagination v-show="total>0"
                 :total="total"
                 :page.sync="listQuery.page"
-                :limit.sync="listQuery.pageSize"
-                @pagination="_getList"></pagination>
+                :size.sync="listQuery.size"
+                @pagination="getList"></pagination>
   </div>
 </template>
 
 <script>
-// import { getArticleList } from '@/api/article'
+import { getArticleList } from '@/api/article'
 import Pagination from '@/components/Pagination'
 export default {
-  name: 'article-list',
+  name: 'ArticleList',
   data () {
     return {
-      articleList: [], // 文章列表数据
+      list: [], // 文章列表数据
       total: 0, // 文章总数
-      listQuery: {
-        page: 1, // 当前页数
-        pageSize: 10 // 每页文章数
-      }
+      listQuery: { page: 1, size: 10 },
+      searchForm: { keywords: '' } // 搜索表单
     }
   },
   methods: {
-    // 格式化时间
-    dateFormat (row, column) {
-      let date = row[column.property]
-      if (date === 'undefined') {
-        return ''
-      }
-      return this.moment(date).format('YYYY-MM-DD')
-    },
     handleEdit (index, row) {
       console.log(index, row)
     },
@@ -108,16 +135,16 @@ export default {
       console.log(index, row)
     },
     // 获取文章列表
-    _getList () {
-      // getArticleList(this.listQuery)
-      //   .then(res => {
-      //     this.articleList = res.data.data.list
-      //     this.total = res.data.data.total
-      //   })
+    getList () {
+      getArticleList({ ...this.listQuery, ...this.searchForm })
+        .then(res => {
+          this.list = res.data.list
+          this.total = res.data.total
+        })
     }
   },
   created () {
-    this._getList()
+    this.getList()
   },
   components: {
     Pagination

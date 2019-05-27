@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import ArticleDetail from './detail'
+import ArticleDetail from './components/ArticleDetail'
 export default {
   name: 'article-edit',
   components: { ArticleDetail }

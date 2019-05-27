@@ -84,14 +84,6 @@ export default {
     }
   },
   methods: {
-    // 格式化时间
-    dateFormat (row, column) {
-      let date = row[column.property]
-      if (date === 'undefined') {
-        return ''
-      }
-      return this.moment(date).format('YYYY-MM-DD HH:mm:ss')
-    },
     // 格式化状态信息
     stateFormat (row, column) {
       let data = row[column.property]

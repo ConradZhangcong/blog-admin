@@ -3,9 +3,9 @@
 </template>
 
 <script>
-import ArticleDetail from './detail'
+import ArticleDetail from './components/ArticleDetail'
 export default {
-  name: 'article-publish',
+  name: 'ArticlePublish',
   components: { ArticleDetail }
 }
 </script>
