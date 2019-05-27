@@ -1,6 +1,5 @@
 <template>
-  <div class="article-list"
-       style="padding: 20px;">
+  <div class="article-list">
     <el-table :data="commentList"
               border
               style="width: 100%;text-align:center;">
@@ -70,7 +69,7 @@
 </template>
 
 <script>
-import Pagination from 'components/pagination'
+import Pagination from '@/components/Pagination'
 export default {
   name: 'comment-list',
   data () {
@@ -104,20 +103,12 @@ export default {
       return state[data]
     },
     handleVerify (index, row, state) {
-      this.$api.comment.commentVerify(row._id, state).then(res => {
-        this._getList()
-      })
     },
     handleDelete (index, row) {
       console.log(index, row)
     },
     // 获取文章列表
     _getList () {
-      this.$api.comment.commentList(this.listQuery)
-        .then(res => {
-          this.commentList = res.data.data.list
-          this.total = res.data.data.total
-        })
     }
   },
   created () {

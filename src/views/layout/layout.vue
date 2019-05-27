@@ -12,34 +12,30 @@
 </template>
 
 <script>
-import commonHeader from 'components/commonHeader'
-import commonAside from 'components/commonAside'
+import commonHeader from './components/Header'
+import commonAside from './components/Aside'
 export default {
-  name: 'layout',
-  data () {
-    return {
-    }
-  },
-  methods: {},
-  created () {
-  },
+  name: 'Layout',
   components: {
     commonHeader,
     commonAside
-  },
-  beforeRouteUpdate (to, from, next) {
-    // 在渲染该组件的对应路由被 confirm 前调用
-    // 不！能！获取组件实例 `this`
-    // 因为当守卫执行前，组件实例还没被创建
-    // console.log('beforeRouteUpdate')
-    next((vm) => {
-
-    })
   }
 }
 </script>
 
 <style scoped lang="stylus">
+.layout
+  width 100%
+  min-height 100%
+  .container
+    position absolute
+    left $AsideWidth
+    right 0
+    top $HeaderHeight
+    bottom 0
+    padding 20px 30px 0
+    overflow hidden
+    overflow-y auto
 .fade-enter
   opacity 0
   transform translateX(-30px)
@@ -50,14 +46,4 @@ export default {
   opacity 1
 .fade-enter-active, .fade-leave-active
   transition 0.5s
-.layout
-  width 100%
-  min-height 100%
-  .container
-    position absolute
-    left 240px
-    right 0
-    top 70px
-    bottom 0
-    overflow hidden
 </style>

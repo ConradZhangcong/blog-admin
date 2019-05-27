@@ -78,7 +78,7 @@
 </template>
 
 <script>
-import Sticky from 'components/sticky'
+import Sticky from '@/components/sticky'
 // import MaterialInput from 'vue-material-input'
 import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
@@ -105,11 +105,6 @@ export default {
   },
   methods: {
     submitForm () {
-      this.$api.article.articlePublish(this.articleForm)
-        .then(res => {
-          this.articleForm.status = 'published'
-          console.log(res)
-        })
     },
     draftForm () {
       console.log('draftForm')
