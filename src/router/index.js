@@ -9,12 +9,12 @@ export const staticRoutes = [
   {
     path: '/login',
     component: () => import('@/views/common/login.vue'),
-    meta: { title: '登录' }
+    meta: { title: '登录', commonViews: true }
   },
   {
     path: '/404',
     component: () => import('@/views/common/404.vue'),
-    meta: { title: '找不到页面了' }
+    meta: { title: '找不到页面了', commonViews: true }
   }
 ]
 
@@ -28,7 +28,8 @@ export const asyncRoutes = [
       {
         path: 'dashboard',
         name: 'Dashboard',
-        component: () => import('@/views/dashboard/dashboard.vue')
+        component: () => import('@/views/dashboard/dashboard.vue'),
+        meta: { title: '首页' }
       }
     ]
   },
@@ -68,33 +69,55 @@ export const asyncRoutes = [
       {
         path: 'publish',
         name: 'ArticlePublish',
-        component: () => import('@/views/article/publish.vue'),
+        component: () => import('@/views/article/detail.vue'),
         meta: { title: '发表文章' }
       },
       {
-        path: 'category',
-        name: 'ArticleCategory',
-        component: () => import('@/views/article/category.vue'),
-        meta: { title: '类别管理' }
-      },
-      {
-        path: 'tag',
-        name: 'ArticleTag',
-        component: () => import('@/views/article/tag.vue'),
-        meta: { title: '标签管理' }
+        path: 'edit/:id',
+        name: 'ArticleEdit',
+        component: () => import('@/views/article/detail.vue'),
+        meta: { title: '编辑文章' },
+        hidden: true
       },
       {
         path: 'comment',
         name: 'ArticleComment',
         component: () => import('@/views/article/comment.vue'),
         meta: { title: '评论列表' }
+      }
+    ]
+  },
+  {
+    path: '/category',
+    component: Layout,
+    redirect: '/category/list',
+    meta: { title: '分类管理', icon: 'component' },
+    children: [
+      {
+        path: 'list',
+        name: 'ArticleCategory',
+        component: () => import('@/views/category/list.vue'),
+        meta: { title: '类别管理' }
       },
       {
-        path: 'edit/:id',
-        name: 'ArticleEdit',
-        component: () => import('@/views/article/edit.vue'),
-        meta: { title: '编辑文章' },
-        hidden: true
+        path: 'tag',
+        name: 'ArticleTag',
+        component: () => import('@/views/category/tag.vue'),
+        meta: { title: '标签管理' }
+      }
+    ]
+  },
+  {
+    path: '/doc',
+    component: Layout,
+    redirect: '/doc/list',
+    meta: { title: '文档', icon: 'doc' },
+    children: [
+      {
+        path: 'list',
+        name: 'DocList',
+        component: () => import('@/views/doc/list.vue'),
+        meta: { title: '文档列表' }
       }
     ]
   }
@@ -104,20 +127,6 @@ const router = new Router({
   mode: 'history',
   base: process.env.BASE_URL,
   routes: [...staticRoutes, ...asyncRoutes]
-})
-
-// 路由跳转前的操作
-router.beforeEach((to, from, next) => {
-  // const token = store.getter.token?store.getter.token:sessionStorage.getItem('token')
-  // if(token)
-  next()
-})
-
-// 路由跳转后的操作
-router.afterEach((to, from) => {
-  window.document.title = to.meta.title
-    ? to.meta.title + ' - Conrad的博客管理系统'
-    : 'Conrad的博客管理系统'
 })
 
 export default router

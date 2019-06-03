@@ -6,7 +6,8 @@ import store from '@/store'
 // console.log(process.env)
 
 const instance = axios.create({
-  baseURL: 'http://127.0.0.1:9705',
+  // baseURL: 'http://127.0.0.1:9705',
+  baseURL: '/v1',
   timeout: 5000
 })
 

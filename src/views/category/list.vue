@@ -1,5 +1,5 @@
 <template>
-  <div class="tag-list">
+  <div class="content-container category-list">
     <el-row>
       <el-form :inline="true"
                :model="searchForm">
@@ -11,13 +11,15 @@
           <el-button type="primary"
                      size="medium"
                      @click="getList">查询</el-button>
+          <el-button type="primary"
+                     size="medium"
+                     @click="showDialog=true">新增类别</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-table :data="list"
               @cell-dblclick="rowDblclick"
-              border
-              style="width: 100%;text-align:center;">
+              border>
       <el-table-column type="index"
                        width="50"
                        align="center">
@@ -32,14 +34,14 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="标签名"
+      <el-table-column label="类别名"
                        align="center">
         <template slot-scope="scope">
           <span v-if="!isEdit[scope.row.id]">{{scope.row.content}}</span>
           <el-input v-if="isEdit[scope.row.id]"
                     size="small"
                     v-model="scope.row.content"
-                    placeholder="请输入标签名"
+                    placeholder="请输入类别名"
                     @change="handleUpdate(scope.row)"></el-input>
         </template>
       </el-table-column>
@@ -71,54 +73,93 @@
                 :page.sync="listQuery.page"
                 :size.sync="listQuery.size"
                 @pagination="getList"></pagination>
+    <el-dialog title="新增类别"
+               :visible.sync="showDialog"
+               :close-on-click-modal="false"
+               @close="closeDialog"
+               width="30%">
+      <el-form :model="detailForm"
+               :rules="rules"
+               ref="detailForm"
+               label-width="80px">
+        <el-form-item label="类别名"
+                      prop="content">
+          <el-input v-model="detailForm.content"></el-input>
+        </el-form-item>
+        <el-form-item>
+          <el-button type="primary"
+                     @click="handleCreate">新增</el-button>
+          <el-button @click="closeDialog">取消</el-button>
+        </el-form-item>
+      </el-form>
+    </el-dialog>
   </div>
 </template>
 
 <script>
-import { getTagList, updateTag, deleteTag } from '@/api/tag'
+import { getCategoryList, createCategory, updateCategory, deleteCategory } from '@/api/category'
 import Pagination from '@/components/Pagination'
 export default {
-  name: 'TagList',
+  name: 'ArticleCategory',
   data () {
     return {
-      list: [], // 标签列表
+      list: [], // 类别列表
       total: 0, // 数据总数
       listQuery: { page: 1, size: 10 }, // 分页参数
       searchForm: { keywords: '' }, // 搜索表单
+      showDialog: false, // 新建类别窗口显示
+      detailForm: { content: '' }, // 类别详情
+      rules: {
+        content: [{ required: true, message: '请输入类别名', trigger: 'blur' }]
+      },
       isEdit: {}
     }
   },
   methods: {
     rowDblclick (row, column, cell, event) {
-      if (column.label === '标签名') {
+      if (column.label === '类别名') {
         this.$set(this.isEdit, row.id, true)
       }
     },
+    // 更新类别
     handleUpdate (row) {
       const { id, content } = row
-      if (!content) return this.$message({ type: 'error', message: '请输入标签名' })
-      updateTag({ id, content })
+      if (!content) return this.$message({ type: 'error', message: '请输入类别名' })
+      updateCategory({ id, content })
         .then(res => {
           this.isEdit[id] = false
           this.getList()
         })
     },
+    // 新增类别
+    handleCreate () {
+      this.$refs['detailForm'].validate((valid) => {
+        if (valid) {
+          createCategory(this.detailForm)
+            .then(res => {
+              this.$message({ type: 'success', message: '新增成功!!!' })
+              this.closeDialog()
+              this.getList()
+            })
+        }
+      })
+    },
     // 删除类别
     handleDelete (id) {
-      this.$confirm('此操作将永久删除该标签, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该类别, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        deleteTag({ id }).then(res => {
+        deleteCategory({ id }).then(res => {
           this.$message({ type: 'success', message: '删除成功!!!' })
           this.getList()
         })
       }).catch(() => { })
     },
-    // 获取标签列表
+    // 获取类别列表
     getList () {
-      getTagList({ ...this.listQuery, ...this.searchForm })
+      getCategoryList({ ...this.listQuery, ...this.searchForm })
         .then(res => {
           this.list = res.data.list
           this.total = res.data.total
@@ -136,6 +177,3 @@ export default {
   components: { Pagination }
 }
 </script>
-
-<style>
-</style>

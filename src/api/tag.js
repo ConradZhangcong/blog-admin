@@ -1,23 +1,23 @@
 import axios from '@/utils/http.js'
 
-export function getTagById (id) {
-  return axios({
-    url: '/api/v1/tag/' + id,
-    method: 'get'
-  })
-}
-
 export function getTagList (params) {
   return axios({
-    url: '/api/v1/tag',
+    url: '/tag',
     method: 'get',
     params
   })
 }
 
+export function getAllTagList () {
+  return axios({
+    url: '/tag/all',
+    method: 'get'
+  })
+}
+
 export function createTag (data) {
   return axios({
-    url: '/api/v1/tag',
+    url: '/tag',
     method: 'post',
     data
   })
@@ -25,7 +25,7 @@ export function createTag (data) {
 
 export function updateTag (data) {
   return axios({
-    url: '/api/v1/tag',
+    url: '/tag',
     method: 'put',
     data
   })
@@ -33,7 +33,7 @@ export function updateTag (data) {
 
 export function deleteTag (data) {
   return axios({
-    url: '/api/v1/tag',
+    url: '/tag',
     method: 'delete',
     data
   })

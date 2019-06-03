@@ -33,7 +33,6 @@ export default {
     right 0
     top $HeaderHeight
     bottom 0
-    padding 20px 30px 0
     overflow hidden
     overflow-y auto
 .fade-enter

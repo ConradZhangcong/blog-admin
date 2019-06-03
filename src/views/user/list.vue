@@ -1,5 +1,5 @@
 <template>
-  <div class="user-list">
+  <div class="content-container user-list">
     <el-row>
       <el-form :inline="true"
                :model="searchForm">
@@ -38,8 +38,7 @@
       </el-form>
     </el-row>
     <el-table :data="list"
-              border
-              style="width: 100%;text-align:center;">
+              border>
       <el-table-column type="index"
                        width="50"
                        align="center">
@@ -94,6 +93,14 @@
           <el-button size="mini"
                      type="primary"
                      @click="$router.push({ path: 'detail/' + scope.row.id })">查看详情</el-button>
+          <el-button v-if="scope.row.isBlock"
+                     size="mini"
+                     type="success"
+                     @click="handleBlock(0,scope.row.id)">解封</el-button>
+          <el-button v-else
+                     size="mini"
+                     type="warning"
+                     @click="handleBlock(1,scope.row.id)">封禁</el-button>
           <el-button size="mini"
                      type="danger"
                      @click="handleDelete(scope.row.id)">删除</el-button>
@@ -106,12 +113,12 @@
                 :size.sync="listQuery.size"
                 @pagination="getList"></pagination>
     <CreateUser :showDialog.sync="showDialog"
-                  @create-user="handleCreate" />
+                @create-user="handleCreate" />
   </div>
 </template>
 
 <script>
-import { getUserList, createUser, deleteUser } from '@/api/user'
+import { getUserList, createUser, deleteUser, updateUser } from '@/api/user'
 import Pagination from '@/components/Pagination'
 import CreateUser from './components/CreateUser'
 export default {
@@ -126,6 +133,20 @@ export default {
     }
   },
   methods: {
+    // 1:封禁/0:解封用户
+    handleBlock (type, id) {
+      const tip = type ? '封禁' : '解封'
+      this.$confirm(`此操作将${tip}该用户, 是否继续?`, '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        updateUser({ id, isBlock: type }).then(res => {
+          this.$message({ type: 'success', message: `${tip}成功!!!` })
+          this.getList()
+        })
+      }).catch(() => { })
+    },
     // 新增用户
     handleCreate (params) {
       createUser(params)
@@ -158,8 +179,8 @@ export default {
     // 格式化用户类型
     userTypeFormat (row, column) {
       const userType = row[column.property]
-      if (userType === 1) return '用户'
-      if (userType === 99) return '管理员'
+      const userTypeList = { 1: '用户', 99: '管理员', 2: '已删除' }
+      return userTypeList[userType]
     },
     // 格式化是否封禁
     isBlockFormat (row, column) {

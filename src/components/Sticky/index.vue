@@ -1,10 +1,12 @@
 <template>
-  <div :style="{height:height+'px',zIndex:zIndex}">
-    <div :class="className"
+  <div class="sticky"
+       :style="{height:height+'px',zIndex:zIndex}">
+    <div class="sub-navbar"
          :style="{top:stickyTop+'px',zIndex:zIndex,position:position,width:width,height:height+'px'}">
-      <slot>
-        <div>sticky</div>
-      </slot>
+      <slot></slot>
+      <div style="float:right">
+        <slot name="right"></slot>
+      </div>
     </div>
   </div>
 </template>
@@ -13,18 +15,8 @@
 export default {
   name: 'Sticky',
   props: {
-    stickyTop: {
-      type: Number,
-      default: 0
-    },
-    zIndex: {
-      type: Number,
-      default: 1
-    },
-    className: {
-      type: String,
-      default: ''
-    }
+    stickyTop: { type: Number, default: 0 },
+    zIndex: { type: Number, default: 1 }
   },
   data () {
     return {
@@ -88,12 +80,12 @@ export default {
 .sub-navbar
   height 50px
   line-height 50px
-  text-align right
-  padding-right 20px
+  padding 0 20px
   transition 600ms ease position
-  background linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%)
-  &.draft
-    background #d0d0d0
-  &.deleted
-    background #d0d0d0
+  background #d0d0d0
+  // background linear-gradient(90deg, rgba(32, 182, 249, 1) 0%, rgba(32, 182, 249, 1) 0%, rgba(33, 120, 241, 1) 100%, rgba(33, 120, 241, 1) 100%)
+  // &.draft
+  // background #d0d0d0
+  // &.deleted
+  // background #d0d0d0
 </style>

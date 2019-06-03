@@ -1,23 +1,23 @@
 import axios from '@/utils/http.js'
 
-export function getCategoryById (id) {
-  return axios({
-    url: '/api/v1/category/' + id,
-    method: 'get'
-  })
-}
-
 export function getCategoryList (params) {
   return axios({
-    url: '/api/v1/category',
+    url: '/category',
     method: 'get',
     params
   })
 }
 
+export function getAllCategoryList () {
+  return axios({
+    url: '/category/all',
+    method: 'get'
+  })
+}
+
 export function createCategory (data) {
   return axios({
-    url: '/api/v1/category',
+    url: '/category',
     method: 'post',
     data
   })
@@ -25,7 +25,7 @@ export function createCategory (data) {
 
 export function updateCategory (data) {
   return axios({
-    url: '/api/v1/category',
+    url: '/category',
     method: 'put',
     data
   })
@@ -33,7 +33,7 @@ export function updateCategory (data) {
 
 export function deleteCategory (data) {
   return axios({
-    url: '/api/v1/category',
+    url: '/category',
     method: 'delete',
     data
   })

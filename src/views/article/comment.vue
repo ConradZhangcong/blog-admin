@@ -1,8 +1,7 @@
 <template>
-  <div class="article-list">
+  <div class="content-container comment-list">
     <el-table :data="commentList"
-              border
-              style="width: 100%;text-align:center;">
+              border>
       <el-table-column type="index"
                        width="50"
                        align="center">
@@ -42,7 +41,7 @@
                        label="状态"
                        width="150"
                        align="center"
-                       :formatter="stateFormat">
+                       :formatter="statusFormat">
       </el-table-column>
       <el-table-column label="审核"
                        width="300"
@@ -85,14 +84,10 @@ export default {
   },
   methods: {
     // 格式化状态信息
-    stateFormat (row, column) {
-      let data = row[column.property]
-      let state = {
-        0: '不通过',
-        1: '通过',
-        2: '待审核'
-      }
-      return state[data]
+    statusFormat (row, column) {
+      const status = row[column.property]
+      const statusList = { 0: '待审核', 1: '通过', 2: '不通过' }
+      return statusList[status]
     },
     handleVerify (index, row, state) {
     },

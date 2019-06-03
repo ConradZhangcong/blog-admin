@@ -2,14 +2,14 @@ import axios from '@/utils/http.js'
 
 export function getArticleById (id) {
   return axios({
-    url: '/api/v1/article/' + id,
+    url: '/article/' + id,
     method: 'get'
   })
 }
 
 export function getArticleList (params) {
   return axios({
-    url: '/api/v1/article',
+    url: '/article',
     method: 'get',
     params
   })
@@ -17,7 +17,7 @@ export function getArticleList (params) {
 
 export function creatAarticle (data) {
   return axios({
-    url: '/api/v1/article',
+    url: '/article',
     method: 'post',
     data
   })
@@ -25,7 +25,7 @@ export function creatAarticle (data) {
 
 export function updateArticle (data) {
   return axios({
-    url: '/api/v1/article',
+    url: '/article',
     method: 'put',
     data
   })
@@ -33,7 +33,7 @@ export function updateArticle (data) {
 
 export function deleteArticle (data) {
   return axios({
-    url: '/api/v1/article',
+    url: '/article',
     method: 'delete',
     data
   })

@@ -11,6 +11,7 @@
       </router-link>
     </div>
     <div class="header-right">
+      <span v-if="user">{{user.username}}</span>
       <a class="btn-logout"
          href="javascript:;"
          @click="handleLogout">退出登录</a>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 export default {
   name: 'CommonHeader',
   data () {
@@ -26,12 +28,20 @@ export default {
       collapse: false
     }
   },
+  computed: {
+    ...mapGetters(['user'])
+  },
   methods: {
     handleChangeCollapse () {
       // TODO:侧边栏折叠
     },
     handleLogout () {
       // TODO:退出登录
+      this.$store.dispatch('Logout')
+        .then(() => {
+          this.$message({ type: 'success', message: '退出登录!!!' })
+          this.$router.push({ path: '/login' })
+        })
     }
   }
 }

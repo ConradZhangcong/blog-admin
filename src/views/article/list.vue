@@ -1,5 +1,5 @@
 <template>
-  <div class="article-list">
+  <div class="content-container article-list">
     <el-row>
       <el-form :inline="true"
                :model="searchForm">
@@ -7,59 +7,57 @@
           <el-input v-model="searchForm.keywords"
                     placeholder="请输入关键词"></el-input>
         </el-form-item>
-        <el-form-item label="用户类型">
-          <el-select v-model="searchForm.userType"
-                     placeholder="请选择用户类型">
+        <el-form-item label="类别">
+          <el-select v-model="searchForm.category_id"
+                     placeholder="请选择文章类别">
             <el-option value=""></el-option>
-            <el-option label="管理员"
-                       value="99"></el-option>
-            <el-option label="用户"
-                       value="1"></el-option>
+            <el-option v-for="category in categoryList"
+                       :key="category.id"
+                       :label="category.content"
+                       :value="category.id"></el-option>
           </el-select>
         </el-form-item>
-        <el-form-item label="是否封禁">
-          <el-select v-model="searchForm.isBlock"
-                     placeholder="请选择是否封禁">
+        <el-form-item label="状态">
+          <el-select v-model="searchForm.status"
+                     placeholder="请选择文章状态">
             <el-option value=""></el-option>
-            <el-option label="是"
-                       value="1"></el-option>
-            <el-option label="否"
+            <el-option label="草稿"
                        value="0"></el-option>
+            <el-option label="已发布"
+                       value="1"></el-option>
+            <el-option label="已删除"
+                       value="2"></el-option>
           </el-select>
         </el-form-item>
         <el-form-item>
           <el-button type="primary"
                      size="medium"
                      @click="getList">查询</el-button>
-          <el-button type="primary"
-                     size="medium"
-                     @click="showDialog=true">新增用户</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-table :data="list"
-              border
-              style="width: 100%;text-align:center;">
+              border>
       <el-table-column type="index"
                        width="50"
                        align="center">
-      </el-table-column>
-      <el-table-column prop="createdAt"
-                       :formatter="dateFormat"
-                       label="发表日期"
-                       align="center">
-      </el-table-column>
-      <el-table-column prop="updatedAt"
-                       :formatter="dateFormat"
-                       label="修改日期"
-                       align="center">
+        <template slot-scope="scope">
+          <el-popover trigger="hover"
+                      placement="top-start">
+            <p>id: {{scope.row.id}}</p>
+            <div slot="reference"
+                 class="name-wrapper">
+              <el-tag size="medium">{{scope.$index+1}}</el-tag>
+            </div>
+          </el-popover>
+        </template>
       </el-table-column>
       <el-table-column label="标题">
         <template slot-scope="scope">
           <el-popover trigger="hover"
                       placement="top-start">
             <p>标题: {{scope.row.title}}</p>
-            <p>描述: {{scope.row.describe}}</p>
+            <p>描述: {{scope.row.description}}</p>
             <div slot="reference"
                  class="name-wrapper">
               <el-tag size="medium">{{scope.row.title}}</el-tag>
@@ -67,42 +65,69 @@
           </el-popover>
         </template>
       </el-table-column>
-      <el-table-column label="分类">
+      <el-table-column label="类别">
         <template slot-scope="scope">
           <el-popover trigger="hover"
                       placement="top-start">
             <p>标签: </p>
-            <p v-for="(item,index) in scope.row.tags"
-               :key="index">&nbsp;&nbsp;{{item}}</p>
+            <p v-for="(tag,index) in scope.row.tags.split(',')"
+               :key="index">&nbsp;&nbsp;{{tag}}</p>
             <div slot="reference"
                  class="name-wrapper">
-              <el-tag size="medium">{{scope.row.classify}}</el-tag>
+              <!-- <el-tag size="medium">{{scope.row.tags.split(',')[0]}}</el-tag> -->
+              <el-tag size="medium">{{scope.row.category.content}}</el-tag>
             </div>
           </el-popover>
         </template>
       </el-table-column>
       <el-table-column prop="reading"
+                       width="80"
                        label="阅读量"
                        align="center">
       </el-table-column>
-      <el-table-column prop="comments"
+      <el-table-column prop="comment"
+                       width="80"
                        label="评论"
                        align="center">
       </el-table-column>
-      <el-table-column prop="favourite"
-                       label="收藏"
+      <el-table-column prop="status"
+                       width="80"
+                       label="状态"
+                       :formatter="statusFormat"
                        align="center">
       </el-table-column>
+      <el-table-column prop="createdAt"
+                       label="发表日期"
+                       align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.createdAt|dateFormat}}</span>
+        </template>
+      </el-table-column>
+      <el-table-column prop="updatedAt"
+                       label="修改日期"
+                       align="center">
+        <template slot-scope="scope">
+          <span>{{scope.row.updatedAt|dateFormat}}</span>
+        </template>
+      </el-table-column>
       <el-table-column label="操作"
-                       width="200"
                        align="center">
         <template slot-scope="scope">
           <el-button size="mini"
                      type="primary"
-                     @click="handleEdit(scope.$index, scope.row)">编辑</el-button>
-          <el-button size="mini"
+                     @click="$router.push({path:`/article/edit/${scope.row.id}`})">编辑</el-button>
+          <el-button v-if="scope.row.status!==0"
+                     size="mini"
+                     type="warning"
+                     @click="handleChange(scope.row.id,0)">草稿</el-button>
+          <el-button v-if="scope.row.status!==1"
+                     size="mini"
+                     type="success"
+                     @click="handleChange(scope.row.id,1)">发布</el-button>
+          <el-button v-if="scope.row.status!==2"
+                     size="mini"
                      type="danger"
-                     @click="handleDelete(scope.$index, scope.row)">删除</el-button>
+                     @click="handleChange(scope.row.id,2)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -115,24 +140,49 @@
 </template>
 
 <script>
-import { getArticleList } from '@/api/article'
+import { getArticleList, updateArticle } from '@/api/article'
+import { getAllCategoryList } from '@/api/category'
 import Pagination from '@/components/Pagination'
 export default {
   name: 'ArticleList',
   data () {
     return {
-      list: [], // 文章列表数据
+      list: [], // 文章列表
+      categoryList: [], // 类别列表
       total: 0, // 文章总数
       listQuery: { page: 1, size: 10 },
-      searchForm: { keywords: '' } // 搜索表单
+      searchForm: { keywords: '', category_id: '', status: '' } // 搜索表单
     }
   },
   methods: {
-    handleEdit (index, row) {
-      console.log(index, row)
+    // 草稿/发布/删除 文章
+    handleChange (id, status) {
+      if (status === 2) {
+        this.$confirm('此操作将删除该文章, 是否继续?', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          updateArticle({ id, status })
+            .then(res => {
+              this.getList()
+              this.$message({ type: 'success', message: '删除成功!!!' })
+            })
+        }).catch(() => { })
+        return
+      }
+      const message = status ? '成功发布!!!' : '存入草稿!!!'
+      updateArticle({ id, status })
+        .then(res => {
+          this.getList()
+          this.$message({ type: 'success', message })
+        })
     },
-    handleDelete (index, row) {
-      console.log(index, row)
+    // 格式化文章状态
+    statusFormat (row, column) {
+      const status = row[column.property]
+      const statusList = { 0: '草稿', 1: '发布', 2: '已删除' }
+      return statusList[status]
     },
     // 获取文章列表
     getList () {
@@ -144,7 +194,8 @@ export default {
     }
   },
   created () {
-    this.getList()
+    this.getList() // 获取文章列表
+    getAllCategoryList().then(res => { this.categoryList = res.data }) // 获取类别列表
   },
   components: {
     Pagination
