@@ -32,11 +32,12 @@ export default {
     ...mapGetters(['user'])
   },
   methods: {
+    // 侧边栏折叠
     handleChangeCollapse () {
-      // TODO:侧边栏折叠
+      this.$store.dispatch('toggleCollapse')
     },
+    // 退出登录
     handleLogout () {
-      // TODO:退出登录
       this.$store.dispatch('Logout')
         .then(() => {
           this.$message({ type: 'success', message: '退出登录!!!' })

@@ -97,21 +97,24 @@
                        align="center">
       </el-table-column>
       <el-table-column prop="createdAt"
-                       label="发表日期"
-                       align="center">
+                       align="center"
+                       width="170"
+                       label="发表日期">
         <template slot-scope="scope">
           <span>{{scope.row.createdAt|dateFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="updatedAt"
-                       label="修改日期"
-                       align="center">
+                       align="center"
+                       width="170"
+                       label="修改日期">
         <template slot-scope="scope">
           <span>{{scope.row.updatedAt|dateFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作"
-                       align="center">
+      <el-table-column align="center"
+                       width="300"
+                       label="操作">
         <template slot-scope="scope">
           <el-button size="mini"
                      type="primary"

@@ -20,13 +20,8 @@ import { mapGetters } from 'vuex'
 import AsideItem from './AsideItem'
 export default {
   name: 'CommonAside',
-  data () {
-    return {
-      isCollapse: false
-    }
-  },
   computed: {
-    ...mapGetters(['routes'])
+    ...mapGetters(['isCollapse', 'routes'])
   },
   components: { AsideItem }
 }
@@ -51,4 +46,11 @@ export default {
     background-color $menuHover !important
 .common-aside >>> .is-active .el-submenu__title
   color #f4f4f5 !important
+.common-aside >>> .el-menu--collapse .el-submenu .el-submenu__title
+  .el-submenu__icon-arrow, span
+    width 0
+    height 0
+    overflow hidden
+    visibility hidden
+    display inline-block
 </style>

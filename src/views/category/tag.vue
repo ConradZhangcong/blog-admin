@@ -46,21 +46,25 @@
         </template>
       </el-table-column>
       <el-table-column prop="createdAt"
-                       label="创建日期"
-                       align="center">
+                       align="center"
+                       width="200"
+                       label="创建日期">
         <template slot-scope="scope">
           <span>{{scope.row.createdAt|dateFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="updatedAt"
-                       label="修改日期"
-                       align="center">
+                       align="center"
+                       width="200"
+                       label="修改日期">
         <template slot-scope="scope">
           <span>{{scope.row.updatedAt|dateFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作"
-                       align="center">
+      <el-table-column fixed="right"
+                       align="center"
+                       width="200"
+                       label="操作">
         <template slot-scope="scope">
           <el-button size="mini"
                      type="danger"
@@ -119,6 +123,9 @@ export default {
     rowDblclick (row, column, cell, event) {
       if (column.label === '标签名') {
         this.$set(this.isEdit, row.id, true)
+        this.$nextTick(() => {
+          cell.querySelector('input').focus()
+        })
       }
     },
     // 更新标签

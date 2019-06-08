@@ -42,25 +42,30 @@
                     size="small"
                     v-model="scope.row.content"
                     placeholder="请输入类别名"
+                    @blur="isEdit[scope.row.id]=false"
                     @change="handleUpdate(scope.row)"></el-input>
         </template>
       </el-table-column>
       <el-table-column prop="createdAt"
-                       label="创建日期"
-                       align="center">
+                       align="center"
+                       width="200"
+                       label="创建日期">
         <template slot-scope="scope">
           <span>{{scope.row.createdAt|dateFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column prop="updatedAt"
-                       label="修改日期"
-                       align="center">
+                       align="center"
+                       width="200"
+                       label="修改日期">
         <template slot-scope="scope">
           <span>{{scope.row.updatedAt|dateFormat}}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作"
-                       align="center">
+      <el-table-column fixed="right"
+                       align="center"
+                       width="200"
+                       label="操作">
         <template slot-scope="scope">
           <el-button size="mini"
                      type="danger"
@@ -119,6 +124,9 @@ export default {
     rowDblclick (row, column, cell, event) {
       if (column.label === '类别名') {
         this.$set(this.isEdit, row.id, true)
+        this.$nextTick(() => {
+          cell.querySelector('input').focus()
+        })
       }
     },
     // 更新类别
@@ -127,7 +135,6 @@ export default {
       if (!content) return this.$message({ type: 'error', message: '请输入类别名' })
       updateCategory({ id, content })
         .then(res => {
-          this.isEdit[id] = false
           this.getList()
         })
     },
