@@ -117,7 +117,7 @@ export const asyncRoutes = [
         path: 'list',
         name: 'DocList',
         component: () => import('@/views/doc/list.vue'),
-        meta: { title: '文档列表' }
+        meta: { title: '文档' }
       }
     ]
   }

@@ -7,8 +7,8 @@ module.exports = {
     open: false,
     proxy: {
       '/v1': {
-        target: 'http://101.132.35.13:9705', // 目标接口域名
-        // target: 'http://localhost:9705', // 目标接口域名
+        // target: 'http://101.132.35.13:9705', // 目标接口域名
+        target: 'http://localhost:9705', // 目标接口域名
         changeOrigin: true, // 是否跨域
         pathRewrite: {
           '^/v1': '/api/v1' // 重写接口
