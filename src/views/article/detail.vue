@@ -77,7 +77,7 @@ import { mavonEditor } from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import { getAllCategoryList } from '@/api/category'
 import { getAllTagList } from '@/api/tag'
-import { creatAarticle, getArticleById, updateArticle } from '@/api/article'
+import { createArticle, getArticleById, updateArticle } from '@/api/article'
 export default {
   name: 'ArticleDetail',
   data () {
@@ -118,7 +118,7 @@ export default {
               })
           } else {
             // 新增
-            creatAarticle(params)
+            createArticle(params)
               .then(res => {
                 this.articleId = res.data.id
                 this.$router.push({ path: `/article/edit/${this.articleId}` })

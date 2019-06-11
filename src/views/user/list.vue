@@ -46,8 +46,7 @@
           <el-popover trigger="hover"
                       placement="top-start">
             <p>id: {{scope.row.id}}</p>
-            <div slot="reference"
-                 class="name-wrapper">
+            <div slot="reference">
               <el-tag size="medium">{{scope.$index+1}}</el-tag>
             </div>
           </el-popover>
@@ -183,7 +182,7 @@ export default {
     // 格式化用户类型
     userTypeFormat (row, column) {
       const userType = row[column.property]
-      const userTypeList = { 1: '用户', 99: '管理员', 2: '已删除' }
+      const userTypeList = { 1: '用户', 99: '管理员' }
       return userTypeList[userType]
     },
     // 格式化是否封禁

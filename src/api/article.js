@@ -15,7 +15,7 @@ export function getArticleList (params) {
   })
 }
 
-export function creatAarticle (data) {
+export function createArticle (data) {
   return axios({
     url: '/article',
     method: 'post',

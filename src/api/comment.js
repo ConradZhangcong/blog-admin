@@ -1,12 +1,40 @@
 import axios from '@/utils/http.js'
 
-const article = {
-  commentList (params) {
-    return axios.get('/comment/list', { params: params })
-  },
-  commentVerify (id, state) {
-    return axios.post('/comment/verify', { id, state })
-  }
+export function getCommentById (id) {
+  return axios({
+    url: '/comment/' + id,
+    method: 'get'
+  })
 }
 
-export default article
+export function getCommentList (params) {
+  return axios({
+    url: '/comment',
+    method: 'get',
+    params
+  })
+}
+
+export function createComment (data) {
+  return axios({
+    url: '/comment',
+    method: 'post',
+    data
+  })
+}
+
+export function updateComment (data) {
+  return axios({
+    url: '/comment',
+    method: 'put',
+    data
+  })
+}
+
+export function deleteComment (data) {
+  return axios({
+    url: '/comment',
+    method: 'delete',
+    data
+  })
+}

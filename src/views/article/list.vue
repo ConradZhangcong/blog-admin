@@ -45,8 +45,7 @@
           <el-popover trigger="hover"
                       placement="top-start">
             <p>id: {{scope.row.id}}</p>
-            <div slot="reference"
-                 class="name-wrapper">
+            <div slot="reference">
               <el-tag size="medium">{{scope.$index+1}}</el-tag>
             </div>
           </el-popover>
@@ -58,8 +57,7 @@
                       placement="top-start">
             <p>标题: {{scope.row.title}}</p>
             <p>描述: {{scope.row.description}}</p>
-            <div slot="reference"
-                 class="name-wrapper">
+            <div slot="reference">
               <el-tag size="medium">{{scope.row.title}}</el-tag>
             </div>
           </el-popover>
@@ -72,8 +70,7 @@
             <p>标签: </p>
             <p v-for="(tag,index) in scope.row.tags.split(',')"
                :key="index">&nbsp;&nbsp;{{tag}}</p>
-            <div slot="reference"
-                 class="name-wrapper">
+            <div slot="reference">
               <!-- <el-tag size="medium">{{scope.row.tags.split(',')[0]}}</el-tag> -->
               <el-tag size="medium">{{scope.row.category.content}}</el-tag>
             </div>
@@ -150,11 +147,11 @@ export default {
   name: 'ArticleList',
   data () {
     return {
-      list: [], // 文章列表
-      categoryList: [], // 类别列表
-      total: 0, // 文章总数
+      list: [],
+      categoryList: [],
+      total: 0,
       listQuery: { page: 1, size: 10 },
-      searchForm: { keywords: '', category_id: '', status: '' } // 搜索表单
+      searchForm: { keywords: '', category_id: '', status: '' }
     }
   },
   methods: {
@@ -197,11 +194,9 @@ export default {
     }
   },
   created () {
-    this.getList() // 获取文章列表
-    getAllCategoryList().then(res => { this.categoryList = res.data }) // 获取类别列表
+    this.getList()
+    getAllCategoryList().then(res => { this.categoryList = res.data })
   },
-  components: {
-    Pagination
-  }
+  components: { Pagination }
 }
 </script>

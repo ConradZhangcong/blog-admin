@@ -27,8 +27,7 @@
           <el-popover trigger="hover"
                       placement="top-start">
             <p>id: {{scope.row.id}}</p>
-            <div slot="reference"
-                 class="name-wrapper">
+            <div slot="reference">
               <el-tag size="medium">{{scope.$index+1}}</el-tag>
             </div>
           </el-popover>

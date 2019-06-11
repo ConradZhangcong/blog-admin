@@ -53,10 +53,10 @@ export default {
     for (let h4 of h4List) {
       const { id, innerHTML, offsetTop } = h4
       let flag = 0
-      for (let i of this.menu[3].children) {
+      for (let i of this.menu[4].children) {
         if (i.offsetTop < offsetTop) flag++
       }
-      this.menu[3].children[flag - 1].children.push({ id, label: innerHTML, offsetTop, children: [] })
+      this.menu[4].children[flag - 1].children.push({ id, label: innerHTML, offsetTop, children: [] })
     }
   },
   methods: {
