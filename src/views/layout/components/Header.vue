@@ -7,14 +7,31 @@
       </div>
       <router-link to="/"
                    class="logo">
-        <span>Conrad的博客管理系统</span>
+        <span>{{$config.appName}}</span>
       </router-link>
     </div>
-    <div class="header-right">
-      <span v-if="user">{{user.username}}</span>
-      <a class="btn-logout"
-         href="javascript:;"
-         @click="handleLogout">退出登录</a>
+    <div class="header-right"
+         v-if="user">
+      <div class="right-item full-screen">
+        <SvgIcon icon="fullscreen" />
+      </div>
+      <el-popover class="right-item avatar-container"
+                  placement="bottom"
+                  width="160"
+                  trigger="hover">
+        <ul class="hidden">
+          <li>个人中心</li>
+          <li @click="handleLogout">退出登录</li>
+        </ul>
+        <div slot="reference">
+          <img v-if="user.avatar"
+               :src="user.avatar"
+               class="avatar">
+          <SvgIcon v-else
+                   class="avatar"
+                   icon="avatar" />
+        </div>
+      </el-popover>
     </div>
   </div>
 </template>
@@ -23,19 +40,12 @@
 import { mapGetters } from 'vuex'
 export default {
   name: 'CommonHeader',
-  data () {
-    return {
-      collapse: false
-    }
-  },
   computed: {
     ...mapGetters(['user'])
   },
   methods: {
     // 侧边栏折叠
-    handleChangeCollapse () {
-      this.$store.dispatch('toggleCollapse')
-    },
+    handleChangeCollapse () { this.$store.dispatch('toggleCollapse') },
     // 退出登录
     handleLogout () {
       this.$store.dispatch('Logout')
@@ -57,22 +67,43 @@ export default {
   color #fff
   box-sizing border-box
   .header-left
-    display flex
-    align-items center
     float left
     height $HeaderHeight
     .btn-collapse
       display inline-block
-      cursor pointer
+      height $HeaderHeight
+      line-height $HeaderHeight
+      i
+        padding 5px
+        cursor pointer
     .logo
-      margin-left 20px
+      margin-left 10px
       color #fff
   .header-right
     float right
     height $HeaderHeight
-    .btn-logout
+    .right-item
+      display inline-block
+      margin-left 10px
+      height $HeaderHeight
       line-height $HeaderHeight
-      color #fff
-      &:hover
-        color $menuHover
+    .full-screen
+    .avatar-container
+      position relative
+      display inline-block
+      cursor pointer
+      .avatar
+        width 40px
+        height 40px
+        border-radius 100%
+        vertical-align middle
+.hidden
+  li
+    list-style none
+    padding 5px 0
+    margin-top 5px
+    &:hover
+      background-color #ecf5ff
+      color #66b1ff
+      cursor pointer
 </style>

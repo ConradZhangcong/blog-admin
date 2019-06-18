@@ -183,6 +183,3 @@ export default {
   components: { Pagination }
 }
 </script>
-
-<style>
-</style>

@@ -13,7 +13,6 @@
 </template>
 
 <script>
-// import { $AsideWidth, $CollapseAsideWidth } from '@/assets/variables.styl'
 import commonHeader from './components/Header'
 import commonAside from './components/Aside'
 import { mapGetters } from 'vuex'
@@ -28,10 +27,6 @@ export default {
     asideWidth () {
       return this.isCollapse ? '65px' : '240px'
     }
-  },
-  created () {
-    // console.log($AsideWidth)
-    // console.log($CollapseAsideWidth)
   }
 }
 </script>

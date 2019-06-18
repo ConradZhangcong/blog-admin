@@ -6,9 +6,7 @@
 
 <script>
 export default {
-  name: 'Dashboard'
+  name: 'Dashboard',
+  created () { }
 }
 </script>
-
-<style scoped lang="stylus">
-</style>

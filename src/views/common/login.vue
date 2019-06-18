@@ -5,7 +5,7 @@
              :rules="loginRules"
              class="login-form">
       <div class="title-container">
-        <h3 class="title">KEBK</h3>
+        <h3 class="title">{{$config.appName}}</h3>
       </div>
       <el-form-item style="position:relative"
                     prop="username">
@@ -20,10 +20,12 @@
           <SvgIcon icon="password" />
         </span>
         <el-input v-model="loginForm.password"
-                  placeholder="请输入密码"></el-input>
+                  placeholder="请输入密码"
+                  @keyup.enter.native="handleLogin"></el-input>
       </el-form-item>
       <el-button type="primary"
                  style="width:100%"
+                 :loading="loading"
                  @click="handleLogin">登录</el-button>
     </el-form>
   </div>
@@ -34,27 +36,32 @@ export default {
   name: 'LoginPage',
   data () {
     return {
-      loginForm: {
-        username: '',
-        password: ''
-      },
+      loginForm: { username: '', password: '' },
       loginRules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-      }
+      },
+      loading: false
     }
   },
   methods: {
     handleLogin () {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
+          this.loading = true
           this.$store.dispatch('LoginByUsername', this.loginForm)
             .then(res => {
               this.$router.push('/')
               this.$notify({
                 title: '登录成功',
-                message: '欢迎您 ' + res.username
+                message: '欢迎您 ' + res.username,
+                duration: 2000
               })
+              this.loading = false
+            })
+            .catch(err => {
+              this.loading = false
+              this.$message({ type: 'error', message: err.msg })
             })
         }
       })
@@ -104,8 +111,4 @@ export default {
       color #eee
       height 47px
       caret-color #fff
-.btn-code
-  position absolute
-  top 3px
-  right -125px
 </style>
