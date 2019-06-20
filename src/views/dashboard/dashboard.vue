@@ -1,6 +1,7 @@
 <template>
   <div class="dashboard">
-    首页---数据统计
+    <el-row>
+    </el-row>
   </div>
 </template>
 
@@ -10,3 +11,11 @@ export default {
   created () { }
 }
 </script>
+
+<style scoped lang="stylus">
+.dashboard
+  height 100%
+  padding 32px
+  background-color #f0f2f5
+  box-sizing border-box
+</style>
