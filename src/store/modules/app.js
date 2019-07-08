@@ -2,15 +2,15 @@ export default {
   state: {
     // loading: false, // 全局加载中状态
     flag: true,
-    isCollapse: !!localStorage.getItem('isCollapse') // 是否叠收起菜单
+    isCollapse: !!JSON.parse(localStorage.getItem('isCollapse')) // 是否叠收起菜单
   },
   mutations: {
     SET_FLAG: (state, value) => {
       state.flag = value
     },
-    SET_COLLAPSE: (state, isCollapse) => {
-      state.isCollapse = isCollapse
-      localStorage.setItem('isCollapse', isCollapse)
+    SET_COLLAPSE: (state, value) => {
+      state.isCollapse = value
+      localStorage.setItem('isCollapse', value)
     }
   },
   actions: {

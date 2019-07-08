@@ -33,7 +33,7 @@
                      @click="getList">查询</el-button>
           <el-button type="primary"
                      size="medium"
-                     @click="showDialog=true">新增用户</el-button>
+                     @click="createUserDialog=true">新增用户</el-button>
         </el-form-item>
       </el-form>
     </el-row>
@@ -99,11 +99,11 @@
           <el-button v-if="scope.row.isBlock"
                      size="mini"
                      type="success"
-                     @click="handleBlock(0,scope.row.id)">解封</el-button>
+                     @click="handleUnblock(scope.row.id)">解封</el-button>
           <el-button v-else
                      size="mini"
                      type="warning"
-                     @click="handleBlock(1,scope.row.id)">封禁</el-button>
+                     @click="handleBlock(scope.row)">封禁</el-button>
           <el-button size="mini"
                      type="danger"
                      @click="handleDelete(scope.row.id)">删除</el-button>
@@ -115,8 +115,36 @@
                 :page.sync="listQuery.page"
                 :size.sync="listQuery.size"
                 @pagination="getList"></pagination>
-    <CreateUser :showDialog.sync="showDialog"
+    <!-- 创建用户 -->
+    <CreateUser :showDialog.sync="createUserDialog"
                 @create-user="handleCreate" />
+    <!-- 封禁用户 -->
+    <el-dialog title="封禁用户"
+               :visible.sync="blockUserDialog">
+      <el-form :model="blockUserForm">
+        <el-form-item label="活动名称"
+                      :label-width="formLabelWidth">
+          <el-input v-model="form.name"
+                    autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="活动区域"
+                      :label-width="formLabelWidth">
+          <el-select v-model="form.region"
+                     placeholder="请选择活动区域">
+            <el-option label="区域一"
+                       value="shanghai"></el-option>
+            <el-option label="区域二"
+                       value="beijing"></el-option>
+          </el-select>
+        </el-form-item>
+      </el-form>
+      <div slot="footer"
+           class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary"
+                   @click="dialogFormVisible = false">确 定</el-button>
+      </div>
+    </el-dialog>
   </div>
 </template>
 
@@ -132,20 +160,25 @@ export default {
       total: 0, // 数据总数
       listQuery: { page: 1, size: 10 }, // 分页参数
       searchForm: { keywords: '', userType: '1', isBlock: '' }, // 搜索表单
-      showDialog: false // 新建窗口显示
+      createUserDialog: false, // 新建窗口显示
+      blockUserDialog: false, // 封禁用户窗口显示
+      blockUserForm: {}
     }
   },
   methods: {
-    // 1:封禁/0:解封用户
-    handleBlock (type, id) {
-      const tip = type ? '封禁' : '解封'
-      this.$confirm(`此操作将${tip}该用户, 是否继续?`, '提示', {
+    // 封禁用户
+    handleBlock () {
+
+    },
+    // 解封用户
+    handleUnblock (id) {
+      this.$confirm('此操作将解封该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        updateUser({ id, isBlock: type }).then(res => {
-          this.$message({ type: 'success', message: `${tip}成功!!!` })
+        updateUser({ id, isBlock: 0 }).then(res => {
+          this.$message({ type: 'success', message: '解封成功!!!' })
           this.getList()
         })
       }).catch(() => { })

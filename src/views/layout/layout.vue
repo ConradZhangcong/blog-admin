@@ -1,7 +1,7 @@
 <template>
   <div class="layout">
     <common-header></common-header>
-    <common-aside></common-aside>
+    <commonAside :isCollapse="isCollapse" />
     <div class="container"
          :style="{ left : asideWidth }">
       <transition name="fade"

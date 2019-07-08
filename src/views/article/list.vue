@@ -72,7 +72,7 @@
                :key="index">&nbsp;&nbsp;{{tag}}</p>
             <div slot="reference">
               <!-- <el-tag size="medium">{{scope.row.tags.split(',')[0]}}</el-tag> -->
-              <el-tag size="medium">{{scope.row.category.content}}</el-tag>
+              <el-tag size="medium">{{scope.row.category?scope.row.category.content:''}}</el-tag>
             </div>
           </el-popover>
         </template>

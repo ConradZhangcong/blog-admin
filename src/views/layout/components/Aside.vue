@@ -20,8 +20,11 @@ import { mapGetters } from 'vuex'
 import AsideItem from './AsideItem'
 export default {
   name: 'CommonAside',
+  props: {
+    isCollapse: { type: Boolean, required: true }
+  },
   computed: {
-    ...mapGetters(['isCollapse', 'routes'])
+    ...mapGetters(['routes'])
   },
   components: { AsideItem }
 }
