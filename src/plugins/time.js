@@ -4,6 +4,6 @@ import moment from 'moment'
 moment.locale('zh-cn')
 
 Vue.filter('dateFormat', (data, format = 'YYYY-MM-DD HH:mm:ss') => {
-  if (data === undefined) return ''
+  if (data === undefined || data === null || data === '') return ''
   return moment(data).format(format)
 })

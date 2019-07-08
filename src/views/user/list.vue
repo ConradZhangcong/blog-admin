@@ -5,12 +5,13 @@
                :model="searchForm">
         <el-form-item label="关键词">
           <el-input v-model="searchForm.keywords"
+                    clearable
                     placeholder="请输入关键词"></el-input>
         </el-form-item>
         <el-form-item label="用户类型">
           <el-select v-model="searchForm.userType"
+                     clearable
                      placeholder="请选择用户类型">
-            <el-option value=""></el-option>
             <el-option label="管理员"
                        value="99"></el-option>
             <el-option label="用户"
@@ -19,8 +20,8 @@
         </el-form-item>
         <el-form-item label="是否封禁">
           <el-select v-model="searchForm.isBlock"
+                     clearable
                      placeholder="请选择是否封禁">
-            <el-option value=""></el-option>
             <el-option label="是"
                        value="1"></el-option>
             <el-option label="否"
@@ -72,20 +73,21 @@
                        width="100"
                        label="是否封禁">
       </el-table-column>
+      <el-table-column prop="blockTime"
+                       align="center"
+                       width="170"
+                       label="解封日期">
+        <template slot-scope="scope">
+          <span v-if="scope.row.isBlock === 1">{{scope.row.blockTime|dateFormat}}</span>
+          <span v-if="scope.row.isBlock === 2">永久封禁</span>
+        </template>
+      </el-table-column>
       <el-table-column prop="createdAt"
                        label="创建日期"
                        width="170"
                        align="center">
         <template slot-scope="scope">
           <span>{{scope.row.createdAt|dateFormat}}</span>
-        </template>
-      </el-table-column>
-      <el-table-column prop="updatedAt"
-                       align="center"
-                       width="170"
-                       label="修改日期">
-        <template slot-scope="scope">
-          <span>{{scope.row.updatedAt|dateFormat}}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right"
@@ -99,14 +101,14 @@
           <el-button v-if="scope.row.isBlock"
                      size="mini"
                      type="success"
-                     @click="handleUnblock(scope.row.id)">解封</el-button>
+                     @click="unblockUser(scope.row.id)">解封</el-button>
           <el-button v-else
                      size="mini"
                      type="warning"
                      @click="handleBlock(scope.row)">封禁</el-button>
           <el-button size="mini"
                      type="danger"
-                     @click="handleDelete(scope.row.id)">删除</el-button>
+                     @click="deleteUser(scope.row.id)">删除</el-button>
         </template>
       </el-table-column>
     </el-table>
@@ -117,34 +119,11 @@
                 @pagination="getList"></pagination>
     <!-- 创建用户 -->
     <CreateUser :showDialog.sync="createUserDialog"
-                @create-user="handleCreate" />
+                @create-user="createUser" />
     <!-- 封禁用户 -->
-    <el-dialog title="封禁用户"
-               :visible.sync="blockUserDialog">
-      <el-form :model="blockUserForm">
-        <el-form-item label="活动名称"
-                      :label-width="formLabelWidth">
-          <el-input v-model="form.name"
-                    autocomplete="off"></el-input>
-        </el-form-item>
-        <el-form-item label="活动区域"
-                      :label-width="formLabelWidth">
-          <el-select v-model="form.region"
-                     placeholder="请选择活动区域">
-            <el-option label="区域一"
-                       value="shanghai"></el-option>
-            <el-option label="区域二"
-                       value="beijing"></el-option>
-          </el-select>
-        </el-form-item>
-      </el-form>
-      <div slot="footer"
-           class="dialog-footer">
-        <el-button @click="dialogFormVisible = false">取 消</el-button>
-        <el-button type="primary"
-                   @click="dialogFormVisible = false">确 定</el-button>
-      </div>
-    </el-dialog>
+    <BlockUser :showDialog.sync="blockUserDialog"
+               :blockForm="blockForm"
+               @block-user="blockUser" />
   </div>
 </template>
 
@@ -152,6 +131,7 @@
 import { getUserList, createUser, deleteUser, updateUser } from '@/api/user'
 import Pagination from '@/components/Pagination'
 import CreateUser from './components/CreateUser'
+import BlockUser from './components/BlockUser'
 export default {
   name: 'UserList',
   data () {
@@ -162,29 +142,47 @@ export default {
       searchForm: { keywords: '', userType: '1', isBlock: '' }, // 搜索表单
       createUserDialog: false, // 新建窗口显示
       blockUserDialog: false, // 封禁用户窗口显示
-      blockUserForm: {}
+      blockForm: {
+        id: '',
+        username: '',
+        isPermanent: false,
+        reason: '',
+        blockTime: null
+      }
     }
   },
   methods: {
+    // 封禁用户弹窗
+    handleBlock (row) {
+      const { id, username } = row
+      this.blockUserDialog = true
+      this.blockForm.id = id
+      this.blockForm.username = username
+    },
     // 封禁用户
-    handleBlock () {
-
+    blockUser (params) {
+      let isBlock = 1
+      if (params.isPermanent) isBlock = 2
+      updateUser({ ...params, isBlock }).then(res => {
+        this.$message({ type: 'success', message: '封禁成功!!!' })
+        this.getList()
+      })
     },
     // 解封用户
-    handleUnblock (id) {
+    unblockUser (id) {
       this.$confirm('此操作将解封该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        updateUser({ id, isBlock: 0 }).then(res => {
+        updateUser({ id, isBlock: 0, blockTime: null }).then(res => {
           this.$message({ type: 'success', message: '解封成功!!!' })
           this.getList()
         })
       }).catch(() => { })
     },
     // 新增用户
-    handleCreate (params) {
+    createUser (params) {
       createUser(params)
         .then(res => {
           this.$message({ type: 'success', message: '新增成功!!!' })
@@ -192,7 +190,7 @@ export default {
         })
     },
     // 删除用户
-    handleDelete (id) {
+    deleteUser (id) {
       this.$confirm('此操作将永久删除该用户, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
@@ -226,6 +224,6 @@ export default {
   created () {
     this.getList()
   },
-  components: { Pagination, CreateUser }
+  components: { Pagination, CreateUser, BlockUser }
 }
 </script>

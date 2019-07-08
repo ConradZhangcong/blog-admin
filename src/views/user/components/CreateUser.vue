@@ -1,8 +1,8 @@
 <template>
   <el-dialog title="新增用户"
              :visible.sync="showDialog"
-             :before-close="closeDialog"
-             width="30%">
+             :close-on-click-modal="false"
+             :before-close="closeDialog">
     <el-form :model="createForm"
              :rules="rules"
              ref="createForm"
@@ -19,13 +19,6 @@
                     prop="password">
         <el-input v-model="createForm.password"></el-input>
       </el-form-item>
-      <el-form-item label="是否封禁"
-                    prop="isBlock">
-        <el-radio-group v-model="createForm.isBlock">
-          <el-radio label="1">是</el-radio>
-          <el-radio label="0">否</el-radio>
-        </el-radio-group>
-      </el-form-item>
       <el-form-item label="用户类型"
                     prop="userType">
         <el-select v-model="createForm.userType"
@@ -37,9 +30,11 @@
         </el-select>
       </el-form-item>
       <el-form-item>
-        <el-button type="primary"
+        <el-button size="medium"
+                   type="primary"
                    @click="handleSubmit">立即创建</el-button>
-        <el-button @click="closeDialog">取消</el-button>
+        <el-button size="medium"
+                   @click="closeDialog">取消</el-button>
       </el-form-item>
     </el-form>
   </el-dialog>
@@ -47,29 +42,25 @@
 
 <script>
 export default {
-  name: 'CreateDialog',
+  name: 'CreateUser',
   data () {
     return {
       createForm: {
         username: '',
         email: '',
         password: '123456',
-        userType: '1',
-        isBlock: '0'
+        userType: '1'
       },
       rules: {
         username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
+        email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        isBlock: [{ required: true, message: '请选择是否封禁', trigger: 'blur' }],
         userType: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
       }
     }
   },
   props: {
-    showDialog: {
-      type: Boolean,
-      default: false
-    }
+    showDialog: { type: Boolean, default: false }
   },
   methods: {
     closeDialog () {
