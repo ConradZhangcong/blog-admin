@@ -48,14 +48,21 @@ export default {
       createForm: {
         username: '',
         email: '',
+        phone: '',
         password: '123456',
         userType: '1'
       },
       rules: {
-        username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
-        email: [{ type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }],
+        username: [
+          { required: true, message: '请输入用户名', trigger: 'blur' }
+        ],
+        email: [
+          { type: 'email', message: '请输入正确的邮箱地址', trigger: 'blur' }
+        ],
         password: [{ required: true, message: '请输入密码', trigger: 'blur' }],
-        userType: [{ required: true, message: '请选择用户类型', trigger: 'blur' }]
+        userType: [
+          { required: true, message: '请选择用户类型', trigger: 'blur' }
+        ]
       }
     }
   },
@@ -68,7 +75,7 @@ export default {
       this.$refs['createForm'].resetFields()
     },
     handleSubmit () {
-      this.$refs['createForm'].validate((valid) => {
+      this.$refs['createForm'].validate(valid => {
         if (valid) {
           this.$emit('create-user', { ...this.createForm })
           this.closeDialog()

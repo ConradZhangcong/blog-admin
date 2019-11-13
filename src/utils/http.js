@@ -29,16 +29,14 @@ instance.interceptors.response.use(
   // 请求接口成功
   response => {
     const result = response.data
-    if (result.code === 200) {
+    if (result.code === 1) {
       return Promise.resolve(result)
-    } else if (result.code === 0) {
+    } else {
       Message({
         message: result.msg,
         type: 'error',
         duration: 2 * 1000
       })
-      return Promise.reject(result)
-    } else {
       return Promise.reject(response)
     }
   },

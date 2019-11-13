@@ -3,7 +3,7 @@
     <common-header></common-header>
     <commonAside :isCollapse="isCollapse" />
     <div class="container"
-         :style="{ left : asideWidth }">
+         :style="{ left: asideWidth }">
       <transition name="fade"
                   mode="out-in">
         <router-view></router-view>
@@ -32,25 +32,36 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.layout
-  width 100%
-  min-height 100%
-  .container
-    position absolute
-    right 0
-    top $HeaderHeight
-    bottom 0
-    overflow hidden
-    overflow-y auto
-    transition left 0.4s
-.fade-enter
-  opacity 0
-  transform translateX(-30px)
-.fade-leave-to
-  opacity 0
-  transform translateX(30px)
-.fade-enter-to, .fade-leave
-  opacity 1
-.fade-enter-active, .fade-leave-active
-  transition 0.5s
+.layout {
+  width: 100%;
+  min-height: 100%;
+
+  .container {
+    position: absolute;
+    right: 0;
+    top: $HeaderHeight;
+    bottom: 0;
+    overflow: hidden;
+    overflow-y: auto;
+    transition: left 0.4s;
+  }
+}
+
+.fade-enter {
+  opacity: 0;
+  transform: translateX(-30px);
+}
+
+.fade-leave-to {
+  opacity: 0;
+  transform: translateX(30px);
+}
+
+.fade-enter-to, .fade-leave {
+  opacity: 1;
+}
+
+.fade-enter-active, .fade-leave-active {
+  transition: 0.5s;
+}
 </style>

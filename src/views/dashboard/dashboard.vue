@@ -3,16 +3,16 @@
     <el-row :gutter="20"
             style="margin-bottom:20px;">
       <el-col :span="8"
-              v-for="(item,index) in list"
+              v-for="(item, index) in list"
               :key="index">
         <el-card class="statistic-crad"
                  @mouseover.native="handleMouseenter(index)"
                  @mouseout.native="handleMouseleave(index)">
           <SvgIcon :style="item.activeObject"
                    class="card-left"
-                   :icon="'dash-'+item.icon" />
+                   :icon="'dash-' + item.icon" />
           <div class="card-right pull-right">
-            <p class="title">{{item.title}}</p>
+            <p class="title">{{ item.title }}</p>
             <p class="number">1200</p>
           </div>
         </el-card>
@@ -45,7 +45,10 @@ export default {
   },
   methods: {
     handleMouseenter (index) {
-      this.list[index].activeObject = { color: '#fff', background: this.colorList[index] }
+      this.list[index].activeObject = {
+        color: '#fff',
+        background: this.colorList[index]
+      }
     },
     handleMouseleave (index) {
       // console.log(index)
@@ -63,27 +66,39 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.dashboard
-  height 100%
-  padding 32px
-  background-color #f0f2f5
-  box-sizing border-box
-  .statistic-crad
-    width 100%
-    transition all 0.5s
-    .card-left
-      padding 10px
-      font-size 48px
-      transition all 0.3s
-      color #40c9c6
-      border-radius 5px
-    .card-right
-      font-size 16px
-      .number
-        font-size 20px
-        color #666
-    &:hover
-      .card-left
-        background #40c9c6
-        color #fff
+.dashboard {
+  height: 100%;
+  padding: 32px;
+  background-color: #f0f2f5;
+  box-sizing: border-box;
+
+  .statistic-crad {
+    width: 100%;
+    transition: all 0.5s;
+
+    .card-left {
+      padding: 10px;
+      font-size: 48px;
+      transition: all 0.3s;
+      color: #40c9c6;
+      border-radius: 5px;
+    }
+
+    .card-right {
+      font-size: 16px;
+
+      .number {
+        font-size: 20px;
+        color: #666;
+      }
+    }
+
+    &:hover {
+      .card-left {
+        background: #40c9c6;
+        color: #fff;
+      }
+    }
+  }
+}
 </style>

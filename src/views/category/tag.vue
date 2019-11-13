@@ -13,34 +13,22 @@
                      @click="getList">查询</el-button>
           <el-button type="primary"
                      size="medium"
-                     @click="showDialog=true">新增类别</el-button>
+                     @click="showDialog = true">新增类别</el-button>
         </el-form-item>
       </el-form>
     </el-row>
     <el-table :data="list"
               @cell-dblclick="rowDblclick"
               border>
-      <el-table-column type="index"
-                       width="50"
-                       align="center">
-        <template slot-scope="scope">
-          <el-popover trigger="hover"
-                      placement="top-start">
-            <p>id: {{scope.row.id}}</p>
-            <div slot="reference">
-              <el-tag size="medium">{{scope.$index+1}}</el-tag>
-            </div>
-          </el-popover>
-        </template>
-      </el-table-column>
       <el-table-column label="标签名"
                        align="center">
         <template slot-scope="scope">
-          <span v-if="!isEdit[scope.row.id]">{{scope.row.content}}</span>
+          <span v-if="!isEdit[scope.row.id]">{{ scope.row.content }}</span>
           <el-input v-if="isEdit[scope.row.id]"
                     size="small"
                     v-model="scope.row.content"
                     placeholder="请输入标签名"
+                    @blur="isEdit[scope.row.id] = false"
                     @change="handleUpdate(scope.row)"></el-input>
         </template>
       </el-table-column>
@@ -49,7 +37,7 @@
                        width="200"
                        label="创建日期">
         <template slot-scope="scope">
-          <span>{{scope.row.createdAt|dateFormat}}</span>
+          <span>{{ scope.row.createdAt | datetimeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column prop="updatedAt"
@@ -57,7 +45,7 @@
                        width="200"
                        label="修改日期">
         <template slot-scope="scope">
-          <span>{{scope.row.updatedAt|dateFormat}}</span>
+          <span>{{ scope.row.updatedAt | datetimeFormat }}</span>
         </template>
       </el-table-column>
       <el-table-column fixed="right"
@@ -71,7 +59,7 @@
         </template>
       </el-table-column>
     </el-table>
-    <pagination v-show="total>0"
+    <pagination v-show="total > 0"
                 :total="total"
                 :page.sync="listQuery.page"
                 :size.sync="listQuery.size"
@@ -130,23 +118,21 @@ export default {
     // 更新标签
     handleUpdate (row) {
       const { id, content } = row
-      if (!content) return this.$message({ type: 'error', message: '请输入标签名' })
-      updateTag({ id, content })
-        .then(res => {
-          this.isEdit[id] = false
-          this.getList()
-        })
+      if (!content) { return this.$message({ type: 'error', message: '请输入标签名' }) }
+      updateTag({ id, content }).then(res => {
+        this.isEdit[id] = false
+        this.getList()
+      })
     },
     // 新增标签
     handleCreate () {
-      this.$refs['detailForm'].validate((valid) => {
+      this.$refs['detailForm'].validate(valid => {
         if (valid) {
-          createTag(this.detailForm)
-            .then(res => {
-              this.$message({ type: 'success', message: '新增成功!!!' })
-              this.closeDialog()
-              this.getList()
-            })
+          createTag(this.detailForm).then(res => {
+            this.$message({ type: 'success', message: '新增成功!!!' })
+            this.closeDialog()
+            this.getList()
+          })
         }
       })
     },
@@ -161,15 +147,14 @@ export default {
           this.$message({ type: 'success', message: '删除成功!!!' })
           this.getList()
         })
-      }).catch(() => { })
+      })
     },
     // 获取标签列表
     getList () {
-      getTagList({ ...this.listQuery, ...this.searchForm })
-        .then(res => {
-          this.list = res.data.list
-          this.total = res.data.total
-        })
+      getTagList({ ...this.listQuery, ...this.searchForm }).then(res => {
+        this.list = res.data
+        this.total = res.total
+      })
     },
     // 关闭弹窗
     closeDialog () {

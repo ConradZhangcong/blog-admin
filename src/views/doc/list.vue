@@ -11,8 +11,7 @@
     </div>
     <transition>
       <div class="markdown-body"
-           ref="content">
-      </div>
+           ref="content"></div>
     </transition>
   </div>
 </template>
@@ -48,7 +47,12 @@ export default {
       for (let i of this.menu) {
         if (i.offsetTop < offsetTop) flag++
       }
-      this.menu[flag - 1].children.push({ id, label: innerHTML, offsetTop, children: [] })
+      this.menu[flag - 1].children.push({
+        id,
+        label: innerHTML,
+        offsetTop,
+        children: []
+      })
     }
     for (let h4 of h4List) {
       const { id, innerHTML, offsetTop } = h4
@@ -56,7 +60,12 @@ export default {
       for (let i of this.menu[4].children) {
         if (i.offsetTop < offsetTop) flag++
       }
-      this.menu[4].children[flag - 1].children.push({ id, label: innerHTML, offsetTop, children: [] })
+      this.menu[4].children[flag - 1].children.push({
+        id,
+        label: innerHTML,
+        offsetTop,
+        children: []
+      })
     }
   },
   methods: {
@@ -83,16 +92,17 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.doc-list
-  border-right 1px solid rgba(0, 0, 0, 0.07)
-  .menu
-    position fixed
-    height 90%
-    overflow-y scroll
-  .markdown-body
-    margin-left 250px
-.fade-enter-active, .fade-leave-active
-  transition opacity 0.5s
-.fade-enter, .fade-leave-to /* .fade-leave-active below version 2.1.8 */
-  opacity 0
+.doc-list {
+  border-right: 1px solid rgba(0, 0, 0, 0.07);
+
+  .menu {
+    position: fixed;
+    height: 90%;
+    overflow-y: scroll;
+  }
+
+  .markdown-body {
+    margin-left: 250px;
+  }
+}
 </style>

@@ -1,13 +1,13 @@
 import axios from '@/utils/http.js'
 
-export function getUserById (id) {
+export function getUserById(id) {
   return axios({
     url: '/user/' + id,
     method: 'get'
   })
 }
 
-export function getUserList (params) {
+export function getUserList(params) {
   return axios({
     url: '/user',
     method: 'get',
@@ -15,7 +15,7 @@ export function getUserList (params) {
   })
 }
 
-export function createUser (data) {
+export function createUser(data) {
   return axios({
     url: '/user',
     method: 'post',
@@ -23,7 +23,7 @@ export function createUser (data) {
   })
 }
 
-export function updateUser (data) {
+export function updateUser(data) {
   return axios({
     url: '/user',
     method: 'put',
@@ -31,7 +31,7 @@ export function updateUser (data) {
   })
 }
 
-export function deleteUser (data) {
+export function deleteUser(data) {
   return axios({
     url: '/user',
     method: 'delete',
@@ -39,7 +39,7 @@ export function deleteUser (data) {
   })
 }
 
-export function login (data) {
+export function login(data) {
   return axios({
     url: '/user/login',
     method: 'post',

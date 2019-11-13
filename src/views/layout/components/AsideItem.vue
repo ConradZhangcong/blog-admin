@@ -5,18 +5,18 @@
       <template slot="title">
         <SvgIcon style="margin-right:16px"
                  :icon="router.meta.icon" />
-        <span slot="title">{{router.meta.title}}</span>
+        <span slot="title">{{ router.meta.title }}</span>
       </template>
       <el-menu-item v-for="item in router.children"
                     :key="item.path"
-                    :index="router.path+'/'+item.path">{{item.meta.title}}</el-menu-item>
+                    :index="router.path + '/' + item.path">{{ item.meta.title }}</el-menu-item>
     </el-submenu>
 
     <el-menu-item v-else
-                  :index="router.redirect?router.redirect:router.path">
+                  :index="router.redirect ? router.redirect : router.path">
       <SvgIcon style="margin-right:16px"
                :icon="router.meta.icon" />
-      <span slot="title">{{router.meta.title}}</span>
+      <span slot="title">{{ router.meta.title }}</span>
     </el-menu-item>
   </div>
 </template>

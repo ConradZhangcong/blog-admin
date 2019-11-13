@@ -1,6 +1,6 @@
 import axios from '@/utils/http.js'
 
-export function getCategoryList (params) {
+export function getCategoryList(params) {
   return axios({
     url: '/category',
     method: 'get',
@@ -8,14 +8,14 @@ export function getCategoryList (params) {
   })
 }
 
-export function getAllCategoryList () {
+export function getAllCategoryList() {
   return axios({
     url: '/category/all',
     method: 'get'
   })
 }
 
-export function createCategory (data) {
+export function createCategory(data) {
   return axios({
     url: '/category',
     method: 'post',
@@ -23,7 +23,7 @@ export function createCategory (data) {
   })
 }
 
-export function updateCategory (data) {
+export function updateCategory(data) {
   return axios({
     url: '/category',
     method: 'put',
@@ -31,7 +31,7 @@ export function updateCategory (data) {
   })
 }
 
-export function deleteCategory (data) {
+export function deleteCategory(data) {
   return axios({
     url: '/category',
     method: 'delete',

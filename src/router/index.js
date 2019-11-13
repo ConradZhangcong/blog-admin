@@ -98,13 +98,13 @@ export const asyncRoutes = [
         name: 'ArticleCategory',
         component: () => import('@/views/category/list.vue'),
         meta: { title: '类别管理' }
-      },
-      {
-        path: 'tag',
-        name: 'ArticleTag',
-        component: () => import('@/views/category/tag.vue'),
-        meta: { title: '标签管理' }
       }
+      // {
+      //   path: 'tag',
+      //   name: 'ArticleTag',
+      //   component: () => import('@/views/category/tag.vue'),
+      //   meta: { title: '标签管理' }
+      // }
     ]
   },
   {

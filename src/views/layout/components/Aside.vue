@@ -31,29 +31,43 @@ export default {
 </script>
 
 <style scoped lang="stylus">
-.common-aside
-  position absolute
-  left 0
-  top $HeaderHeight
-  bottom 0
-  color #fff
-  overflow hidden
-  .el-menu-vertical
-    height 100%
-  .el-menu-vertical:not(.el-menu--collapse)
-    width $AsideWidth
-    min-height 400px
-.common-aside >>> .aside-item .el-submenu .el-menu, .common-aside >>> .el-submenu .el-menu-item
-  background-color $subMenuBg !important
-  &:hover
-    background-color $menuHover !important
-.common-aside >>> .is-active .el-submenu__title
-  color #f4f4f5 !important
-.common-aside >>> .el-menu--collapse .el-submenu .el-submenu__title
-  .el-submenu__icon-arrow, span
-    width 0
-    height 0
-    overflow hidden
-    visibility hidden
-    display inline-block
+.common-aside {
+  position: absolute;
+  left: 0;
+  top: $HeaderHeight;
+  bottom: 0;
+  color: #fff;
+  overflow: hidden;
+
+  .el-menu-vertical {
+    height: 100%;
+  }
+
+  .el-menu-vertical:not(.el-menu--collapse) {
+    width: $AsideWidth;
+    min-height: 400px;
+  }
+}
+
+.common-aside >>> .aside-item .el-submenu .el-menu, .common-aside >>> .el-submenu .el-menu-item {
+  background-color: $subMenuBg !important;
+
+  &:hover {
+    background-color: $menuHover !important;
+  }
+}
+
+.common-aside >>> .is-active .el-submenu__title {
+  color: #f4f4f5 !important;
+}
+
+.common-aside >>> .el-menu--collapse .el-submenu .el-submenu__title {
+  .el-submenu__icon-arrow, span {
+    width: 0;
+    height: 0;
+    overflow: hidden;
+    visibility: hidden;
+    display: inline-block;
+  }
+}
 </style>
