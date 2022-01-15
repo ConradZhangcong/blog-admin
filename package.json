@@ -14,7 +14,7 @@
     "axios": "^0.18.1",
     "echarts": "^4.2.1",
     "element-ui": "^2.10.1",
-    "marked": "^0.6.2",
+    "marked": "^4.0.10",
     "mavon-editor": "^2.6.17",
     "moment": "^2.23.0",
     "vue": "^2.6.10",
